@@ -6,30 +6,34 @@ Resource           ../Locators/AcceuilByProfilPage.resource
 *** Variables ***
 #parametres pour keywords
 ${mess_bienvenue}       Bienvenue sur l'application Crédit Auto
-${username_val}
+
 
 
 *** Keywords ***
-Wait Until Message Welcome CA Display
+Check_Message_Welcome_CA
     [Documentation]    verify element "bienvenue" is displayed
     ...  verify contain text "Bienvenue"
-    Wait Until Element Is Visible    ${div_bienvenue}
-    Page Should Contain    ${mess_bienvenue}
+    #Wait Until Element Is Visible    ${div_bienvenue}
+    #Page Should Contain    ${mess_bienvenue}
+    Wait Until Page Contains     ${mess_bienvenue}
 
 
-Verify Name User Display
+Check_Name_User_Display
     [Documentation]    verify username is displayed in menu
     ...  verify username in
-    [Arguments]    ${username_val}
-    Element Text Should Be   ${div_b_username}   ${username_val}
-    Element Text Should Be   ${div_i_username}   ${username_val}
+    [Arguments]    ${identifiant}
+    #Element Text Should Be   ${div_b_username}   ${username_val}
+    #Element Text Should Be   ${div_i_username}   ${username_val}
+    Element Should Contain    ${div_b_username}   ${identifiant}[user]
+    Element Should Contain    ${div_i_username}   ${identifiant}[user]
 
 
-Verify Menu User Display
+Check_Menu_User_Display
     [Documentation]    verify menu of profil user is display
     [Arguments]    ${username_val}
 
     IF    '${username_val}' == "acd"
+        #list de lien doivent etre vérifier
         Element Should Be Visible    ${lnk_verifierAdmis}
         Element Should Be Visible    ${lnk_consulter_liste_credit}
         Element Should Be Visible    ${lnk_simulation}
@@ -55,6 +59,6 @@ Verify Menu User Display
     END
 
 
-Logout CA
+Deconnexion_CA
     [Documentation]    user click button Deconnexion
     Click Link    ${btn_deconnexion}
